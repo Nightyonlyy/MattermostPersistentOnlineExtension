@@ -16,10 +16,15 @@ document.addEventListener('DOMContentLoaded', () => {
 function updateUI() {
     chrome.storage.local.get(["mattermostDomain", "userId", "xRequestId", "csrfToken", "authToken"], (data) => {
         if (data.mattermostDomain && data.userId) {
-            document.getElementById('scanResult').textContent = `Domain: ${data.mattermostDomain}, User ID: ${data.userId}, X-Request-Id: ${data.xRequestId}, CSRF Token: ${data.csrfToken}, Auth Token: ${data.authToken}`;
+            document.getElementById('scanResult').innerHTML = `Domain: ${data.mattermostDomain}<br>
+																User ID: ${data.userId}<br>
+																X-Request-Id: ${data.xRequestId}<br>
+																CSRF Token: ${data.csrfToken}<br>
+																Auth Token: ${data.authToken}`;
         }
     });
 }
+
 
 async function scanMattermost() {
     let [tab] = await chrome.tabs.query({ active: true, currentWindow: true });

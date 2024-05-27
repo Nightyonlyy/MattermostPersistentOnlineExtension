@@ -4,41 +4,88 @@
   <title>Mattermost Online Status</title>
   <script src="popup.js" defer></script>
   <style>
+    body {
+      font-family: 'Arial', sans-serif;
+      background-color: #f4f4f4;
+      color: #333;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 300px; /* Festgelegte Höhe für das Popup-Fenster */
+      width: 200px;  /* Festgelegte Breite für das Popup-Fenster */
+      margin: 0;
+      padding: 10px;
+      box-sizing: border-box;
+    }
+
+    h2 {
+      margin-bottom: 20px;
+      font-size: 16px; /* Kleinere Schriftgröße für Überschrift */
+      text-align: center;
+    }
+
     .switch {
       display: flex;
       align-items: center;
-      margin-bottom: 10px;
+      margin-bottom: 20px;
     }
+
     .switch input {
-      margin-right: 10px;
+      display: none;
     }
-    .switch .slider {
+
+    .slider {
       position: relative;
       display: inline-block;
-      width: 34px;
-      height: 20px;
+      width: 50px;  /* Kleinere Breite für den Slider */
+      height: 24px; /* Kleinere Höhe für den Slider */
+      background-color: #ccc;
+      border-radius: 24px;
+      transition: background-color 0.4s;
     }
-    .switch .slider:before {
+
+    .slider:before {
       position: absolute;
       content: "";
-      height: 14px;
-      width: 14px;
-      left: 4px;
+      height: 18px;
+      width: 18px;
+      left: 3px;
       bottom: 3px;
       background-color: white;
-      transition: .4s;
+      border-radius: 50%;
+      transition: transform 0.4s;
     }
+
     input:checked + .slider {
       background-color: #2196F3;
     }
+
     input:checked + .slider:before {
-      transform: translateX(14px);
+      transform: translateX(26px);
     }
-    .slider.round {
-      border-radius: 34px;
+
+    button {
+      background-color: #2196F3;
+      color: white;
+      border: none;
+      padding: 5px 10px; /* Kleinere Polsterung für den Button */
+      font-size: 14px; /* Kleinere Schriftgröße für den Button */
+      border-radius: 5px;
+      cursor: pointer;
+      transition: background-color 0.3s;
+      margin-top: 10px;
     }
-    .slider.round:before {
-      border-radius: 50%;
+
+    button:hover {
+      background-color: #1976D2;
+    }
+
+    #scanResult {
+      margin-top: 20px;
+      word-wrap: break-word;
+      text-align: center;
+      font-size: 12px; /* Kleinere Schriftgröße für das Scan-Ergebnis */
     }
   </style>
 </head>

@@ -6,23 +6,26 @@
   <style>
     body {
       font-family: 'Arial', sans-serif;
-      background-color: #f4f4f4;
+      background-color: #ffffff;
       color: #333;
       display: flex;
       flex-direction: column;
       align-items: center;
       justify-content: center;
-      height: 300px; /* Festgelegte Höhe für das Popup-Fenster */
-      width: 200px;  /* Festgelegte Breite für das Popup-Fenster */
+      height: 300px;
+      width: 200px;
       margin: 0;
-      padding: 10px;
+      padding: 20px;
       box-sizing: border-box;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      border-radius: 10px;
     }
 
     h2 {
       margin-bottom: 20px;
-      font-size: 16px; /* Kleinere Schriftgröße für Überschrift */
+      font-size: 18px;
       text-align: center;
+      color: #333;
     }
 
     .switch {
@@ -38,11 +41,12 @@
     .slider {
       position: relative;
       display: inline-block;
-      width: 50px;  /* Kleinere Breite für den Slider */
-      height: 24px; /* Kleinere Höhe für den Slider */
+      width: 50px;
+      height: 24px;
       background-color: #ccc;
       border-radius: 24px;
       transition: background-color 0.4s;
+      cursor: pointer;
     }
 
     .slider:before {
@@ -54,6 +58,7 @@
       bottom: 3px;
       background-color: white;
       border-radius: 50%;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
       transition: transform 0.4s;
     }
 
@@ -69,23 +74,30 @@
       background-color: #2196F3;
       color: white;
       border: none;
-      padding: 5px 10px; /* Kleinere Polsterung für den Button */
-      font-size: 14px; /* Kleinere Schriftgröße für den Button */
+      padding: 10px 15px;
+      font-size: 14px;
       border-radius: 5px;
       cursor: pointer;
-      transition: background-color 0.3s;
+      transition: background-color 0.3s, transform 0.2s;
       margin-top: 10px;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     }
 
     button:hover {
       background-color: #1976D2;
+      transform: scale(1.05);
+    }
+
+    button:active {
+      background-color: #1565C0;
     }
 
     #scanResult {
       margin-top: 20px;
       word-wrap: break-word;
       text-align: center;
-      font-size: 12px; /* Kleinere Schriftgröße für das Scan-Ergebnis */
+      font-size: 12px;
+      color: #555;
     }
   </style>
 </head>
@@ -96,6 +108,7 @@
     <span class="slider round"></span>
   </label>
   <button id="scanButton">Scan</button>
+  <button id="viewDataButton">View Stored Data</button>
   <p id="scanResult"></p>
 </body>
 </html>

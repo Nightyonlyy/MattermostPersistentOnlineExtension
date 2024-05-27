@@ -26,6 +26,7 @@ um zu vermeiden, dass man untätig aussieht.
 [Download Link](https://downlaod ....)
 
 2. Öffne die Extensions-Seite in Brave:
+   
 ```brave://extension``` 
 
 3. Aktiviere den Entwicklermodus.

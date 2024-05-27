@@ -1,7 +1,6 @@
 document.addEventListener('DOMContentLoaded', () => {
     document.getElementById('scanButton').addEventListener('click', scanMattermost);
     document.getElementById('autoStatusSwitch').addEventListener('change', toggleAutoStatus);
-    document.getElementById('viewDataButton').addEventListener('click', toggleStoredData);
 
     // Restore switch state
     chrome.storage.local.get(["autoStatusEnabled"], (data) => {

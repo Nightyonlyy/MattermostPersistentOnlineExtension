@@ -1,35 +1,3 @@
-Mattermost-Seamless-Online-Extension
-
-Du kannst sie auch ganz einfach über den Chrome Web Store herunterladen.
-
-https://blabliblub
-
-Beschreibung
-Die Extension wurde von mir erstellt mit dem Sinn dauerhaft auf Mattermost Online angezeigt zu werden,
-um zu vermeiden, dass man untätig aussieht.
-
-
-Installation
-1. Lade die aktuellste Version der Extension von Github herunter
-   Link  https://downlaod ....
-
-2. Suche in deinem Browser nach den Extensions oder suche nach folgender URL je nach dem welchen Browser du verwendest.
-Chrome:
-    chrome://extensions/
-Brave: 
-    brave://extensions/
-Safari:
-    dont know
-Firefox:
-    dont know
-
-3. Aktiviere den Entwickler Modus
-4. Klicke auf Load unpacked und wähle die ZIP aus
-
-Herzlichen Glückwunsch du hast erfolgreich eine Extension hinzugefügt
-
-
-
 # Mattermost-Seamless-Online-Extension
 
 Du kannst sie auch ganz einfach über den Chrome Web Store herunterladen.
@@ -58,7 +26,7 @@ um zu vermeiden, dass man untätig aussieht.
 [Download Link](https://downlaod ....)
 
 2. Öffne die Extensions-Seite in Brave:
-   [brave://extensions/](brave://extensions/) 
+   ```brave://extension``` 
 
 3. Aktiviere den Entwicklermodus.
 

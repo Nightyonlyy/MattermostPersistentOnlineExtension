@@ -1,57 +1,57 @@
 # Mattermost-Seamless-Online-Extension
 
-Du kannst sie auch ganz einfach über den Chrome Web Store herunterladen.
-
+You can also download it easily via the Chrome Web Store.
 [Chrome Web Store Link](https://blabliblub)
 
 ## Beschreibung
-Die Extension wurde von mir erstellt mit dem Sinn, dauerhaft auf Mattermost online angezeigt zu werden,
-um zu vermeiden, dass man untätig aussieht.
+This extension was developed to permanently display users as online in Mattermost. It prevents you from appearing as absent or inactive due to inactivity. The extension ensures that you are always shown as active, even if you are not actively using your computer. This is particularly useful in professional environments where it is important to be continuously available.
 
 ## Installation
 
 ### Chrome
-1. Lade die aktuellste Version der Extension von Github herunter:
-   [Download Link](https://downlaod ....)
+1. Download the latest version of the extension from Github:
+   [Download](add link)
 
-2. Öffne die Extensions-Seite in Chrome:
-    ´´´chrome://extensions´´´
+2. Open the extension page in Chrome:
+```
+chrome://extensions
+```
+3. Activate the developer mode.
 
-3. Aktiviere den Entwicklermodus.
-
-4. Klicke auf "Load unpacked" und wähle die heruntergeladene ZIP-Datei aus.
-
+4. Click on “Load unpacked” and select the downloaded ZIP file.
+___
 ### Brave
-1. Lade die aktuellste Version der Extension von Github herunter:
-[Download Link](https://downlaod ....)
+1. Download the latest version of the extension from Github:
+   [Download Link](add link)
 
-2. Öffne die Extensions-Seite in Brave:
-```brave://extension``` 
+2. Open the extension page in Brave:
+```
+brave://extension
+```
+3. Activate the developer mode.
 
-3. Aktiviere den Entwicklermodus.
-
-4. Klicke auf "Load unpacked" und wähle die heruntergeladene ZIP-Datei aus.
-
+4. Click on “Load unpacked” and select the downloaded ZIP file.
+___
 ### Safari
-1. Lade die aktuellste Version der Extension von Github herunter:
-[Download Link](https://downlaod ....)
+1. Download the latest version of the extension from Github:
+   [Download Link](add link)
 
-2. Öffne die Einstellungen in Safari und gehe zum Tab "Erweiterungen".
+2. Open the settings in Safari and go to the “Extensions” tab
 
-3. Aktiviere den Entwicklermodus:
-- Öffne Safari und gehe zu "Safari" > "Einstellungen" > "Erweitert".
-- Aktiviere das Kästchen "Menü 'Entwickler' in der Menüleiste anzeigen".
+3. Activate the developer mode:
+   1. Open Safari and go to “Safari” > “Preferences” > “Advanced”.
+   2. Activate the checkbox “Show ‘Developer’ menu in the menu bar”.
 
-4. Öffne das Entwickler-Menü und wähle "Erweiterungen" > "Erweiterungen aus Paketdatei installieren..." und wähle die heruntergeladene ZIP-Datei aus.
-
+4. Open the developer menu and select “Extensions” > “Install extensions from package file...” and select the downloaded ZIP file.
+___
 ### Firefox
-1. Lade die aktuellste Version der Extension von Github herunter:
-[Download Link](https://downlaod ....)
+1. Download the latest version of the extension from Github:
+   [Download Link](add link)
 
-2. Öffne die Add-ons-Seite in Firefox:
+2. Open the add-ons page in Firefox:
 
-3. Klicke auf das Zahnrad-Symbol und wähle "Add-on aus Datei installieren..." und wähle die heruntergeladene ZIP-Datei aus.
+3. Click on the gear icon and select “Install add-on from file...” and select the downloaded ZIP file.
 
-## Herzlichen Glückwunsch
+## Congratulations
 
-Du hast erfolgreich eine Extension hinzugefügt!
+You have successfully added an extension!

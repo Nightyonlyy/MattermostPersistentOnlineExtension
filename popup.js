@@ -6,10 +6,10 @@ document.addEventListener('DOMContentLoaded', () => {
     chrome.storage.local.get(["autoStatusEnabled"], (data) => {
         if (data.autoStatusEnabled) {
             document.getElementById('autoStatusSwitch').checked = true;
-            updateStatus(); // Run first request immediately
+            updateStatus();
         }
     });
-
+	
     updateUI();
 });
 
@@ -24,6 +24,7 @@ function updateUI() {
         }
     });
 }
+
 
 
 async function scanMattermost() {
@@ -59,13 +60,14 @@ async function scanMattermost() {
     });
 }
 
+
 function toggleAutoStatus(event) {
     const isChecked = event.target.checked;
     chrome.storage.local.set({ autoStatusEnabled: isChecked });
 
     if (isChecked) {
         chrome.alarms.create("checkStatus", { periodInMinutes: 1 });
-        updateStatus(); // Run first request immediately
+        updateStatus(); 
     } else {
         chrome.alarms.clear("checkStatus");
     }
@@ -104,3 +106,5 @@ function updateStatus() {
         }
     });
 }
+
+

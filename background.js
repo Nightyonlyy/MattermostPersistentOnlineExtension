@@ -1,26 +1,26 @@
-const CHECK_INTERVAL_MINUTES = 1; // Check every 1 minute
+/*
+MATTERMOST SEAMLESS ONLINE STATUS
 
+CREATED BY @Nightyonlyy
+*/
+
+
+// Check every 2 minute [DEFAULT MATTERMOST INACTIVITY TIMEOUT IS 5 min]
+const CHECK_INTERVAL_MINUTES = 2;
+
+
+//Grabs the current data from a request to save it in the local storage 
 chrome.webRequest.onBeforeSendHeaders.addListener(
     function(details) {
         if (details.url.includes('/api/v4/channels/members/me/view') && details.method === 'POST') {
-            let xRequestId = null;
-
-            details.requestHeaders.forEach(header => {
-                if (header.name.toLowerCase() === 'x-request-id') {
-                    xRequestId = header.value;
-                }
-            });
-
-            console.log("Captured xRequestId:", xRequestId);
-
             chrome.cookies.getAll({ domain: new URL(details.url).hostname }, (cookies) => {
-                let authToken = null;
+                let xRequestId = null;
                 let userId = null;
                 let csrfToken = null;
 
                 cookies.forEach(cookie => {
                     if (cookie.name === 'MMAUTHTOKEN') {
-                        authToken = cookie.value;
+                        xRequestId = cookie.value;
                     }
                     if (cookie.name === 'MMUSERID') {
                         userId = cookie.value;
@@ -30,12 +30,12 @@ chrome.webRequest.onBeforeSendHeaders.addListener(
                     }
                 });
 
-                if (authToken && userId && csrfToken) {
-                    chrome.storage.local.set({authToken, userId, csrfToken }, () => {
-                        console.log('Captured data saved:', { authToken, userId, csrfToken });
+                if (xRequestId && userId && csrfToken) {
+                    chrome.storage.local.set({ xRequestId, userId, csrfToken }, () => {
+                        console.log('Captured data saved:', { xRequestId, userId, csrfToken });
                     });
                 } else {
-                    console.error('Missing data to save:', {  authToken, userId, csrfToken });
+                    console.error('Missing data to save:', { xRequestId, userId, csrfToken });
                 }
             });
         }
@@ -44,17 +44,18 @@ chrome.webRequest.onBeforeSendHeaders.addListener(
     ["requestHeaders", "extraHeaders"]
 );
 
+//CREATES an alarm which checks if you're still online or away
 chrome.alarms.create("checkStatus", { periodInMinutes: CHECK_INTERVAL_MINUTES });
 
 chrome.alarms.onAlarm.addListener((alarm) => {
     if (alarm.name === "checkStatus") {
-        chrome.storage.local.get(["authToken", "userId", "csrfToken", ], (data) => {
+        chrome.storage.local.get(["xRequestId", "userId", "csrfToken", ], (data) => {
             console.log("Alarm triggered, retrieved data:", data);
-            if (data.authToken && data.userId && data.csrfToken) {
-                getStatus(data.authToken, data.userId, data.csrfToken).then(status => {
+            if (data.xRequestId && data.userId && data.csrfToken) {
+                getStatus(data.xRequestId, data.userId, data.csrfToken).then(status => {
                     console.log("Current status:", status);
                     if (status === "away") {
-                        updateStatus(data.authToken, data.userId, data.csrfToken);
+                        updateStatus(data.xRequestId, data.userId, data.csrfToken);
                     }
                 });
             } else {
@@ -64,7 +65,11 @@ chrome.alarms.onAlarm.addListener((alarm) => {
     }
 });
 
-async function getStatus(authToken, userId, csrfToken) {
+
+
+//RETURNS the current state [online, away, dnd { => do not desturb}, offline]
+//Only updates if state is away 
+async function getStatus(xRequestId, userId, csrfToken) {
     try {
         const response = await fetch(`https://chat.orgacard.de/api/v4/users/${userId}/status`, {
             method: "GET",
@@ -72,7 +77,6 @@ async function getStatus(authToken, userId, csrfToken) {
                 "Content-Type": "application/json",
                 "X-Requested-With": "XMLHttpRequest",
                 "X-CSRF-Token": csrfToken,
-                "Authorization": `Bearer ${authToken}`
             },
             credentials: 'include'
         });
@@ -90,17 +94,17 @@ async function getStatus(authToken, userId, csrfToken) {
     }
 }
 
-async function updateStatus(authToken, userId, csrfToken) {
+//SENDS the update request to set your sate to online again
+async function updateStatus(xRequestId, userId, csrfToken) {
     try {
-        console.log('Updating status with:', { authToken, userId, csrfToken });
+        console.log('Updating status with:', { xRequestId, userId, csrfToken });
         const response = await fetch(`https://chat.orgacard.de/api/v4/users/${userId}/status`, {
             method: "PUT",
             headers: {
                 "Content-Type": "application/json",
                 "X-Requested-With": "XMLHttpRequest",
                 "X-CSRF-Token": csrfToken,
-                "Authorization": `Bearer ${authToken}`,
-                "X-Request-Id": authToken
+                "X-Request-Id": xRequestId
             },
             body: JSON.stringify({
                 "user_id": userId,

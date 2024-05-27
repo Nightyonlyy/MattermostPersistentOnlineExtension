@@ -1,0 +1,25 @@
+{
+    "manifest_version": 3,
+    "name": "Mattermost Online Status",
+    "version": "1.0",
+    "action": {
+        "default_popup": "popup.html"
+    },
+    "icons": {
+        "48": "icon.png"
+    },
+    "permissions": [
+        "activeTab",
+        "storage",
+        "cookies",
+        "declarativeNetRequest",
+        "alarms",
+        "webRequest"
+    ],
+    "host_permissions": [
+        "<all_urls>"
+    ],
+    "background": {
+        "service_worker": "background.js"
+    }
+}

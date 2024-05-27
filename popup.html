@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Mattermost Online Status</title>
+  <script src="popup.js" defer></script>
+  <style>
+    .switch {
+      display: flex;
+      align-items: center;
+      margin-bottom: 10px;
+    }
+    .switch input {
+      margin-right: 10px;
+    }
+    .switch .slider {
+      position: relative;
+      display: inline-block;
+      width: 34px;
+      height: 20px;
+    }
+    .switch .slider:before {
+      position: absolute;
+      content: "";
+      height: 14px;
+      width: 14px;
+      left: 4px;
+      bottom: 3px;
+      background-color: white;
+      transition: .4s;
+    }
+    input:checked + .slider {
+      background-color: #2196F3;
+    }
+    input:checked + .slider:before {
+      transform: translateX(14px);
+    }
+    .slider.round {
+      border-radius: 34px;
+    }
+    .slider.round:before {
+      border-radius: 50%;
+    }
+  </style>
+</head>
+<body>
+  <h2>Mattermost Online Status</h2>
+  <label class="switch">
+    <input type="checkbox" id="autoStatusSwitch">
+    <span class="slider round"></span>
+  </label>
+  <button id="scanButton">Scan</button>
+  <p id="scanResult"></p>
+</body>
+</html>

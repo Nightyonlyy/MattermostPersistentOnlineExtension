@@ -13,7 +13,6 @@
         "activeTab",
         "storage",
         "cookies",
-        "declarativeNetRequest",
         "alarms",
         "webRequest"
     ],

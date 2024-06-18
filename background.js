@@ -82,13 +82,48 @@ chrome.alarms.onAlarm.addListener(async (alarm) => {
                 "X-CSRF-Token": csrfToken,
                 "X-Request-Id": xRequestId
             };
-            const statusUrl = `https://chat.orgacard.de/api/v4/users/${userId}/status`;
-            const status = await fetchStatus(statusUrl, headers);
-            if (status === "away") {
-                await updateStatus(statusUrl, headers, { "user_id": userId, "status": "online" });
-            }
+
+            // Get the URL of the active tab
+            chrome.tabs.query({ active: true, currentWindow: true }, async (tabs) => {
+                if (tabs.length > 0) {
+                    const activeTabUrl = new URL(tabs[0].url);
+                    const domain = activeTabUrl.hostname;
+
+                    const statusUrl = `https://${domain}/api/v4/users/${userId}/status`;
+                    const status = await fetchStatus(statusUrl, headers);
+                    if (status === "away") {
+                        await updateStatus(statusUrl, headers, { "user_id": userId, "status": "online" });
+                    }
+                } else {
+                    console.error('No active tab found');
+                }
+            });
         } else {
             console.error('Missing data on alarm:', { xRequestId, userId, csrfToken });
         }
     }
 });
+
+
+async function sendApiRequest() {
+    const secret = 'JBSWY3DPEHPK3PXP'; // Dein geheimer Schlüssel
+    const totp = new jsotp.TOTP(secret);
+    const token = totp.now(); // Generiere den aktuellen TOTP
+    const unixTimestamp = Math.round(new Date().getTime() / 1000); 
+  
+    fetch('http://localhost:8080/api/v1/tracking/mattermost-persistent-online', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${token}`
+      },
+      body: JSON.stringify({
+        timestamp: "1718537582",
+        switch: "true",
+      })
+    })
+    .then(response => response.json())
+    .then(data => console.log(data))
+    .catch(error => console.error('Error:', error));
+  }
+  

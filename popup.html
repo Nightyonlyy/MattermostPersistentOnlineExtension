@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Mattermost Online Status</title>
+  <title>Mattermost Persistent Online Status</title>
   <script src="popup.js" defer></script>
   <style>
     body {
@@ -13,7 +13,7 @@
       align-items: center;
       justify-content: center;
       height: 300px;
-      width: 200px;
+      width: 400px;
       margin: 0;
       padding: 20px;
       box-sizing: border-box;
@@ -102,7 +102,8 @@
   </style>
 </head>
 <body>
-  <h2>Mattermost Online Status</h2>
+  <h2>Mattermost Persistent Online Status</h2>
+  <span>Toggle Online Status</span><br>
   <label class="switch">
     <input type="checkbox" id="autoStatusSwitch">
     <span class="slider round"></span>

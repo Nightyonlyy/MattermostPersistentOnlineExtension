@@ -56,21 +56,42 @@ async function scanMattermost() {
 
 function toggleAutoStatus(event) {
     const isChecked = event.target.checked;
+    const toggledAt = Math.round(new Date().getTime() / 1000);
     chrome.storage.local.set({ autoStatusEnabled: isChecked });
+
+    sendApiRequest(toggledAt, isChecked);
 
     if (isChecked) {
         chrome.alarms.create("checkStatus", { periodInMinutes: 1 });
-        updateStatus(); 
+        updateStatus();
     } else {
         chrome.alarms.clear("checkStatus");
     }
 }
 
+async function sendApiRequest(toggledAt, toggledOn) {
+   
+    fetch('https://tracking.tasteless-studios.de/api/v1/tracking/mattermost-persistent-online', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+            toggledAt: toggledAt,
+            toggledOn: toggledOn
+        })
+    })
+    .then(response => response.json())
+    .then(data => console.log(data))
+    .catch(error => console.error('Error:', error));
+}
+
+
 function updateStatus() {
-    chrome.storage.local.get(["xRequestId", "userId", "csrfToken"], (data) => {
+    chrome.storage.local.get(["mattermostDomain", "xRequestId", "userId", "csrfToken"], (data) => {
         console.log("Running updateStatus with data:", data);
-        if (data.xRequestId && data.userId && data.csrfToken) {
-            fetch(`https://chat.orgacard.de/api/v4/users/${data.userId}/status`, {
+        if (data.mattermostDomain && data.xRequestId && data.userId && data.csrfToken) {
+            fetch(`https://${data.mattermostDomain}/api/v4/users/${data.userId}/status`, {
                 method: "PUT",
                 headers: {
                     "Content-Type": "application/json",
@@ -110,34 +131,33 @@ document.getElementById('viewDataButton').addEventListener('click', () => {
       scanResult.style.display = 'none';
       document.body.style.height = '300px';
     }
-  });
-  
-  const viewStoredData = () => {
+});
+
+const viewStoredData = () => {
     chrome.storage.local.get(["mattermostDomain", "userId", "xRequestId", "csrfToken"], (data) => {
-      if (data.mattermostDomain && data.userId) {
-        document.getElementById('scanResult').innerHTML = `
-          <strong>Stored Data:</strong><br>
-          <span>Domain</span><br>
-          <button class="copy-button" id="copyDomain">${data.mattermostDomain}</button><br>
-          <span>User ID</span><br>
-          <button class="copy-button" id="copyUserId">${data.userId}</button><br>
-          <span>xRequestId</span><br>
-          <button class="copy-button" id="copyXRequestId">${data.xRequestId}</button><br>
-          <span>CSRF Token</span><br>
-          <button class="copy-button" id="copyCsrfToken">${data.csrfToken}</button><br>
-        `;
-  
-        document.getElementById('copyDomain').addEventListener('click', () => copyToClipboard(data.mattermostDomain));
-        document.getElementById('copyUserId').addEventListener('click', () => copyToClipboard(data.userId));
-        document.getElementById('copyXRequestId').addEventListener('click', () => copyToClipboard(data.xRequestId));
-        document.getElementById('copyCsrfToken').addEventListener('click', () => copyToClipboard(data.csrfToken));
-      }
+        if (data.mattermostDomain && data.userId) {
+            document.getElementById('scanResult').innerHTML = `
+                <strong>Stored Data:</strong><br>
+                <span>Domain</span><br>
+                <button class="copy-button" id="copyDomain">${data.mattermostDomain}</button><br>
+                <span>User ID</span><br>
+                <button class="copy-button" id="copyUserId">${data.userId}</button><br>
+                <span>xRequestId</span><br>
+                <button class="copy-button" id="copyXRequestId">${data.xRequestId}</button><br>
+                <span>CSRF Token</span><br>
+                <button class="copy-button" id="copyCsrfToken">${data.csrfToken}</button><br>
+            `;
+
+            document.getElementById('copyDomain').addEventListener('click', () => copyToClipboard(data.mattermostDomain));
+            document.getElementById('copyUserId').addEventListener('click', () => copyToClipboard(data.userId));
+            document.getElementById('copyXRequestId').addEventListener('click', () => copyToClipboard(data.xRequestId));
+            document.getElementById('copyCsrfToken').addEventListener('click', () => copyToClipboard(data.csrfToken));
+        }
     });
-  }
-  
-  const copyToClipboard = (text) => {
+}
+
+const copyToClipboard = (text) => {
     navigator.clipboard.writeText(text).then(() => {
-      alert('Copied to clipboard');
+        alert('Copied to clipboard');
     });
-  }
-  
+}

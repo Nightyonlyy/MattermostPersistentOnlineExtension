@@ -2,104 +2,7 @@
 <html>
 <head>
   <title>Mattermost Persistent Online Status</title>
-  <script src="popup.js" defer></script>
-  <style>
-    body {
-      font-family: 'Arial', sans-serif;
-      background-color: #ffffff;
-      color: #333;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      height: 300px;
-      width: 400px;
-      margin: 0;
-      padding: 20px;
-      box-sizing: border-box;
-      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-      border-radius: 10px;
-    }
-
-    h2 {
-      margin-bottom: 20px;
-      font-size: 18px;
-      text-align: center;
-      color: #333;
-    }
-
-    .switch {
-      display: flex;
-      align-items: center;
-      margin-bottom: 20px;
-    }
-
-    .switch input {
-      display: none;
-    }
-
-    .slider {
-      position: relative;
-      display: inline-block;
-      width: 50px;
-      height: 24px;
-      background-color: #ccc;
-      border-radius: 24px;
-      transition: background-color 0.4s;
-      cursor: pointer;
-    }
-
-    .slider:before {
-      position: absolute;
-      content: "";
-      height: 18px;
-      width: 18px;
-      left: 3px;
-      bottom: 3px;
-      background-color: white;
-      border-radius: 50%;
-      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
-      transition: transform 0.4s;
-    }
-
-    input:checked + .slider {
-      background-color: #2196F3;
-    }
-
-    input:checked + .slider:before {
-      transform: translateX(26px);
-    }
-
-    button {
-      background-color: #2196F3;
-      color: white;
-      border: none;
-      padding: 10px 15px;
-      font-size: 14px;
-      border-radius: 5px;
-      cursor: pointer;
-      transition: background-color 0.3s, transform 0.2s;
-      margin-top: 10px;
-      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    }
-
-    button:hover {
-      background-color: #1976D2;
-      transform: scale(1.05);
-    }
-
-    button:active {
-      background-color: #1565C0;
-    }
-
-    #scanResult {
-      margin-top: 20px;
-      word-wrap: break-word;
-      text-align: center;
-      font-size: 12px;
-      color: #555;
-    }
-  </style>
+  <link rel="stylesheet" href="styles.css">
 </head>
 <body>
   <h2>Mattermost Persistent Online Status</h2>
@@ -108,8 +11,9 @@
     <input type="checkbox" id="autoStatusSwitch">
     <span class="slider round"></span>
   </label>
-  <button id="scanButton">Scan</button>
+  <button id="scanButton">Scan first</button>
   <button id="viewDataButton">View Stored Data</button>
-  <p id="scanResult"></p>
+  <div id="scanResult" style="display: none;"></div>
+  <script src="popup.js"></script>
 </body>
 </html>

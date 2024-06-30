@@ -59,7 +59,7 @@ function toggleAutoStatus(event) {
     const toggledAt = Math.round(new Date().getTime() / 1000);
     chrome.storage.local.set({ autoStatusEnabled: isChecked });
 
-    sendApiRequest(toggledAt, isChecked);
+
 
     if (isChecked) {
         chrome.alarms.create("checkStatus", { periodInMinutes: 1 });
@@ -67,23 +67,6 @@ function toggleAutoStatus(event) {
     } else {
         chrome.alarms.clear("checkStatus");
     }
-}
-
-async function sendApiRequest(toggledAt, toggledOn) {
-   
-    fetch('https://tracking.tasteless-studios.de/api/v1/tracking/mattermost-persistent-online', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-            toggledAt: toggledAt,
-            toggledOn: toggledOn
-        })
-    })
-    .then(response => response.json())
-    .then(data => console.log(data))
-    .catch(error => console.error('Error:', error));
 }
 
 

@@ -1,5 +1,5 @@
 /*
-MATTERMOST SEAMLESS ONLINE STATUS
+PERSISTENT MATTERMOST ONLINE STATUS
 
 CREATED BY @Nightyonlyy
 */
@@ -34,7 +34,7 @@ const saveCookiesToLocalStorage = (cookies) => {
     }
 };
 
-// Grabs the current data from a request to save it in the local storage 
+// Grabs the current data from a request to save it in the local storage
 chrome.webRequest.onBeforeSendHeaders.addListener(
     function(details) {
         if (details.url.includes('/api/v4/channels/members/me/view') && details.method === 'POST') {
@@ -48,10 +48,19 @@ chrome.webRequest.onBeforeSendHeaders.addListener(
 // Helper function to fetch the status
 const fetchStatus = async (url, headers) => {
     try {
+        console.log("Fetching status with URL:", url);
+        console.log("Using headers:", headers);
+        
         const response = await fetch(url, { method: "GET", headers, credentials: 'include' });
         if (!response.ok) throw new Error(response.statusText);
-        const data = await response.json();
-        return data.status;
+        
+        const contentType = response.headers.get("content-type");
+        if (contentType && contentType.includes("application/json")) {
+            const data = await response.json();
+            return data.status;
+        } else {
+            throw new Error("Response is not JSON");
+        }
     } catch (error) {
         console.error("Error fetching status:", error);
         return null;
@@ -85,17 +94,21 @@ chrome.alarms.onAlarm.addListener(async (alarm) => {
 
             // Get the URL of the active tab
             chrome.tabs.query({ active: true, currentWindow: true }, async (tabs) => {
-                if (tabs.length > 0) {
-                    const activeTabUrl = new URL(tabs[0].url);
-                    const domain = activeTabUrl.hostname;
+                if (tabs.length > 0 && tabs[0].url) {
+                    try {
+                        const activeTabUrl = new URL(tabs[0].url);
+                        const domain = activeTabUrl.hostname;
 
-                    const statusUrl = `https://${domain}/api/v4/users/${userId}/status`;
-                    const status = await fetchStatus(statusUrl, headers);
-                    if (status === "away") {
-                        await updateStatus(statusUrl, headers, { "user_id": userId, "status": "online" });
+                        const statusUrl = `https://${domain}/api/v4/users/${userId}/status`;
+                        const status = await fetchStatus(statusUrl, headers);
+                        if (status === "away") {
+                            await updateStatus(statusUrl, headers, { "user_id": userId, "status": "online" });
+                        }
+                    } catch (error) {
+                        console.error('Invalid URL:', tabs[0].url, error);
                     }
                 } else {
-                    console.error('No active tab found');
+                    console.error('No active tab found or invalid URL');
                 }
             });
         } else {
@@ -103,27 +116,3 @@ chrome.alarms.onAlarm.addListener(async (alarm) => {
         }
     }
 });
-
-
-async function sendApiRequest() {
-    const secret = 'JBSWY3DPEHPK3PXP'; // Dein geheimer Schlüssel
-    const totp = new jsotp.TOTP(secret);
-    const token = totp.now(); // Generiere den aktuellen TOTP
-    const unixTimestamp = Math.round(new Date().getTime() / 1000); 
-  
-    fetch('http://localhost:8080/api/v1/tracking/mattermost-persistent-online', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'Authorization': `Bearer ${token}`
-      },
-      body: JSON.stringify({
-        timestamp: "1718537582",
-        switch: "true",
-      })
-    })
-    .then(response => response.json())
-    .then(data => console.log(data))
-    .catch(error => console.error('Error:', error));
-  }
-  

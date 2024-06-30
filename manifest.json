@@ -1,10 +1,10 @@
 {
     "manifest_version": 3,
     "name": "Mattermost Online Status",
-    "version": "2024.1.0",
+    "version": "2024.1.1",
     "action": {
         "default_icon": {
-            "128": "icons/Some128-removebg.png"
+            "128": "icons/favicon.png"
           },
         "default_popup": "popup.html",
         "default_title": "Seamless Mattermost Online Status"

@@ -1,7 +1,7 @@
 {
     "manifest_version": 3,
     "name": "Mattermost Online Status",
-    "version": "2024.1.1",
+    "version": "1.0.0",
     "action": {
         "default_icon": {
             "128": "icons/favicon.png"

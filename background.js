@@ -4,7 +4,7 @@ PERSISTENT MATTERMOST ONLINE STATUS
 CREATED BY @Nightyonlyy
 */
 
-// Check every 2 minute [DEFAULT MATTERMOST INACTIVITY TIMEOUT IS 5 min]
+// Check every 2 minutes [DEFAULT MATTERMOST INACTIVITY TIMEOUT IS 5 min]
 const CHECK_INTERVAL_MINUTES = 2;
 
 // Helper function to get cookies and save to local storage
@@ -83,8 +83,8 @@ chrome.alarms.create("checkStatus", { periodInMinutes: CHECK_INTERVAL_MINUTES })
 
 chrome.alarms.onAlarm.addListener(async (alarm) => {
     if (alarm.name === "checkStatus") {
-        const { xRequestId, userId, csrfToken } = await chrome.storage.local.get(["xRequestId", "userId", "csrfToken"]);
-        if (xRequestId && userId && csrfToken) {
+        const { mattermostDomain, xRequestId, userId, csrfToken } = await chrome.storage.local.get(["mattermostDomain", "xRequestId", "userId", "csrfToken"]);
+        if (mattermostDomain && xRequestId && userId && csrfToken) {
             const headers = {
                 "Content-Type": "application/json",
                 "X-Requested-With": "XMLHttpRequest",
@@ -92,27 +92,13 @@ chrome.alarms.onAlarm.addListener(async (alarm) => {
                 "X-Request-Id": xRequestId
             };
 
-            // Get the URL of the active tab
-            chrome.tabs.query({ active: true, currentWindow: true }, async (tabs) => {
-                if (tabs.length > 0 && tabs[0].url) {
-                    try {
-                        const activeTabUrl = new URL(tabs[0].url);
-                        const domain = activeTabUrl.hostname;
-
-                        const statusUrl = `https://${domain}/api/v4/users/${userId}/status`;
-                        const status = await fetchStatus(statusUrl, headers);
-                        if (status === "away") {
-                            await updateStatus(statusUrl, headers, { "user_id": userId, "status": "online" });
-                        }
-                    } catch (error) {
-                        console.error('Invalid URL:', tabs[0].url, error);
-                    }
-                } else {
-                    console.error('No active tab found or invalid URL');
-                }
-            });
+            const statusUrl = `https://${mattermostDomain}/api/v4/users/${userId}/status`;
+            const status = await fetchStatus(statusUrl, headers);
+            if (status === "away") {
+                await updateStatus(statusUrl, headers, { "user_id": userId, "status": "online" });
+            }
         } else {
-            console.error('Missing data on alarm:', { xRequestId, userId, csrfToken });
+            console.error('Missing data on alarm:', { mattermostDomain, xRequestId, userId, csrfToken });
         }
     }
 });

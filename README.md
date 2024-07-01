@@ -1,7 +1,7 @@
 # Mattermost-Seamless-Online-Extension
 
 You can also download it easily via the Chrome Web Store.
-[Chrome Web Store Link](https://chromewebstore.google.com/detail/mattermost-online-status/ckamancjfldifdfjblhacmbgpmefkpoi)
+<a href="https://chromewebstore.google.com/detail/mattermost-online-status/ckamancjfldifdfjblhacmbgpmefkpoi" target="_blank">Chrome Web Store Link</a>
 
 ## Beschreibung
 This extension was developed to permanently display users as online in Mattermost. It prevents you from appearing as absent or inactive due to inactivity. The extension ensures that you are always shown as active, even if you are not actively using your computer. This is particularly useful in professional environments where it is important to be continuously available.
